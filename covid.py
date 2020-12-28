@@ -36,3 +36,6 @@ def main():
 
     print(json_object)
     return json_object
+
+if __name__ == "__main__":
+    main()
