@@ -22,12 +22,15 @@ def computing_answer(population, confirmed_cases, recovered_people, dead_people)
         , indent=1))
 
 
+def check_http_response():
+    response = requests.get(url="https://covid-api.mmediagroup.fr/v1/cases")
+    return response
+
+
 def main():
     args = parser()
 
-    response = requests.get(url="https://covid-api.mmediagroup.fr/v1/cases?country=" + args.country)
-
-    if response.ok:
+    if check_http_response().ok:
 
         countries_data = requests.get(url="https://covid-api.mmediagroup.fr/v1/cases?country=" + args.country).json()
 
