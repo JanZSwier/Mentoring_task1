@@ -32,7 +32,8 @@ def main():
 
     if check_http_response().ok:
 
-        countries_data = requests.get(url="https://covid-api.mmediagroup.fr/v1/cases?country=" + args.country).json()
+        countries_data = requests.get(url="https://covid-api.mmediagroup.fr/v1/cases?country="
+                                          + args.country.capitalize()).json()
 
         all_data = countries_data.get("All")
 
@@ -42,7 +43,7 @@ def main():
                              all_data.get("recovered"), all_data.get("deaths"))
 
         except AttributeError:
-            print("Probably there is no such country as:\n" + args.country + "\n;)")
+            print("There is no data for country:\n" + args.country)
     else:
         print("Oh no, unfortunately, some external error occurred. Please try again later")
 
