@@ -9,6 +9,6 @@ CLI application that for a given country as an input returns information about:
 
 ## Before Use
 Make sure that you install requirements.txt. It is can be done by command:
-'''
+```
 python -m pip install -r requirements.txt
-'''
+```
