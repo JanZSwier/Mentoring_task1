@@ -3,10 +3,10 @@ import json
 import requests
 
 
-def parser():
+def get_parsed_arguments():
     my_parser = argparse.ArgumentParser(
         description="By giving name of country you will get "
-        "percentage of people recovered and still sick from all population"
+                    "percentage of people recovered and still sick from all population"
     )
     my_parser.add_argument(
         "--country",
@@ -19,6 +19,7 @@ def parser():
 
 def compute_answer(population, confirmed_cases, recovered_people, dead_people):
     percent_of_recovered = round(100 * recovered_people / population, 1)
+
     percent_of_sick = round(
         100 * (confirmed_cases - recovered_people - dead_people) / population, 1
     )
@@ -36,7 +37,7 @@ def call_covid_api(country_name):
 
 
 def main():
-    args = parser()
+    args = get_parsed_arguments()
     covid_api_response = call_covid_api(args.country.capitalize())
     if covid_api_response.ok:
 
