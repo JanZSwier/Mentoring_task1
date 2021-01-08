@@ -6,3 +6,12 @@ CLI application that for a given country as an input returns information about:
 
 % of a country population that recovered from COVID19
 % of a country population that is currently sick
+
+Just want to check something:
+```
+git status
+git add
+git commit
+```
+more something
+`git command`
