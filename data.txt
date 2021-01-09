@@ -1,0 +1,1 @@
+{'All': {'confirmed': 1365645, 'recovered': 1104599, 'deaths': 30574, 'country': 'Poland', 'population': 38170712, 'sq_km_area': 323250, 'life_expectancy': '73.2', 'elevation_in_meters': 173, 'continent': 'Europe', 'abbreviation': 'PL', 'location': 'Eastern Europe', 'iso': 616, 'capital_city': 'Warszawa', 'lat': '51.9194', 'long': '19.1451', 'updated': '2021/01/09 08:22:02+00'}}

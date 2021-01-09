@@ -1,6 +1,10 @@
 import argparse
+import ast
 import json
 import requests
+import os
+
+cache_file = "data.txt"
 
 
 def get_parsed_arguments():
@@ -36,32 +40,72 @@ def call_covid_api(country_name):
     return response
 
 
+def check_is_cache_empty():
+    if os.stat(cache_file).st_size == 0:
+        return True
+    else:
+        return False
+
+
+def save_response_to_cache(response):
+    f = open(cache_file, "w")
+    f.write(str(response.json()))
+    f.close()
+
+
+def get_caches_content():
+    f = open(cache_file, "r")
+    return ast.literal_eval(f.read())
+
+
+def check_if_calling_api_is_needed(country):
+    if not check_is_cache_empty():
+        cached_info = get_caches_content()
+        try:
+            if cached_info.get('All').get('country') == country:
+                return False
+            else:
+                return True
+        except AttributeError:
+            return True
+    else:
+        return True
+
+
 def main():
     args = get_parsed_arguments()
-    covid_api_response = call_covid_api(args.country.capitalize())
-    if covid_api_response.ok:
 
-        all_data = covid_api_response.json()
+    if check_if_calling_api_is_needed(args.country.capitalize()):
+        covid_api_response = call_covid_api(args.country.capitalize())
+        save_response_to_cache(covid_api_response)
 
-        country_data = all_data.get("All")
+        if covid_api_response.ok:
 
-        try:
+            all_data = covid_api_response.json()
 
+        else:
             print(
-                compute_answer(
-                    country_data.get("population"),
-                    country_data.get("confirmed"),
-                    country_data.get("recovered"),
-                    country_data.get("deaths"),
-                )
+                "Oh no, unfortunately, some external error occurred. Please try again later"
             )
 
-        except AttributeError:
-            print(f"There is no data for country:\n{args.country}")
     else:
+        all_data = get_caches_content()
+
+    country_data = all_data.get("All")
+
+    try:
+
         print(
-            "Oh no, unfortunately, some external error occurred. Please try again later"
+            compute_answer(
+                country_data.get("population"),
+                country_data.get("confirmed"),
+                country_data.get("recovered"),
+                country_data.get("deaths"),
+            )
         )
+
+    except AttributeError:
+        print(f"There is no data for country:\n{args.country}")
 
 
 if __name__ == "__main__":
