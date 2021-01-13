@@ -72,25 +72,28 @@ def check_if_calling_api_is_needed(country):
         return True
 
 
-def main():
-    args = get_parsed_arguments()
-
-    if check_if_calling_api_is_needed(args.country.capitalize()):
-        covid_api_response = call_covid_api(args.country.capitalize())
-        save_response_to_cache(covid_api_response)
-
-        if covid_api_response.ok:
-
-            all_data = covid_api_response.json()
+def get_covid_data(country):
+    if check_if_calling_api_is_needed(country):
+        response = call_covid_api(country)
+        if response.ok:
+            save_response_to_cache(response)
+            return response.json()
 
         else:
             print(
                 "Oh no, unfortunately, some external error occurred. Please try again later"
             )
-
+            return 0
     else:
-        all_data = get_caches_content()
+        return get_caches_content()
 
+
+def main():
+    args = get_parsed_arguments()
+
+    all_data = get_covid_data(args.country.capitalize())
+    if all_data == 0:
+        return 0
     country_data = all_data.get("All")
 
     try:
