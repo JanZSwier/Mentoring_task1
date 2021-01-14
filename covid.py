@@ -51,8 +51,8 @@ def save_response_to_cache(response):
 
 
 def get_cached_content():
-    f = open(cache_file, "r")
-    return ast.literal_eval(f.read())
+    with open(cache_file, 'r') as file:
+        return ast.literal_eval(file.read())
 
 
 def check_if_calling_api_is_needed(country):
