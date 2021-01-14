@@ -55,6 +55,8 @@ def get_cached_content():
         return ast.literal_eval(file.read())
 
 
+
+
 def check_if_calling_api_is_needed(country):
     if not is_cache_empty():
         cached_info = get_cached_content()
