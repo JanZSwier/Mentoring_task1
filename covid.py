@@ -40,11 +40,8 @@ def call_covid_api(country_name):
     return response
 
 
-def check_is_cache_empty():
-    if os.stat(cache_file).st_size == 0:
-        return True
-    else:
-        return False
+def is_cache_empty():
+    return os.stat(cache_file).st_size == 0
 
 
 def save_response_to_cache(response):
@@ -53,19 +50,16 @@ def save_response_to_cache(response):
     f.close()
 
 
-def get_caches_content():
+def get_cached_content():
     f = open(cache_file, "r")
     return ast.literal_eval(f.read())
 
 
 def check_if_calling_api_is_needed(country):
-    if not check_is_cache_empty():
-        cached_info = get_caches_content()
+    if not is_cache_empty():
+        cached_info = get_cached_content()
         try:
-            if cached_info.get('All').get('country') == country:
-                return False
-            else:
-                return True
+            return not cached_info.get('All').get('country') == country
         except AttributeError:
             return True
     else:
@@ -84,8 +78,10 @@ def get_covid_data(country):
                 "Oh no, unfortunately, some external error occurred. Please try again later"
             )
             return 0
+    elif get_cached_content().get('All').get('country') == country:
+        return get_cached_content()
     else:
-        return get_caches_content()
+        return 1
 
 
 def main():
@@ -94,6 +90,10 @@ def main():
     all_data = get_covid_data(args.country.capitalize())
     if all_data == 0:
         return 0
+    elif all_data == 1:
+        print(f"There is no data for country:\n{args.country}")
+        return 1
+
     country_data = all_data.get("All")
 
     try:
