@@ -1,8 +1,9 @@
 import argparse
 import ast
 import json
-import requests
 import os
+
+import requests
 
 cache_file = "data.txt"
 
@@ -10,7 +11,7 @@ cache_file = "data.txt"
 def get_parsed_arguments():
     my_parser = argparse.ArgumentParser(
         description="By giving name of country you will get "
-        "percentage of people recovered and still sick from all population"
+                    "percentage of people recovered and still sick from all population"
     )
     my_parser.add_argument(
         "--country",
@@ -91,7 +92,7 @@ def main():
     if all_data == 0:
         return 0
     elif all_data == 1:
-        print(f"There is no data for country:\n{args.country}")
+        print(f"Oh no there is no data for country:\n{args.country}")
         return 1
 
     country_data = all_data.get("All")
