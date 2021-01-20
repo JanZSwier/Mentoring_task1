@@ -10,7 +10,7 @@ cache_file = "data.txt"
 def get_parsed_arguments():
     my_parser = argparse.ArgumentParser(
         description="By giving name of country you will get "
-                    "percentage of people recovered and still sick from all population"
+        "percentage of people recovered and still sick from all population"
     )
     my_parser.add_argument(
         "--country",
@@ -51,17 +51,15 @@ def save_response_to_cache(response):
 
 
 def get_cached_content():
-    with open(cache_file, 'r') as file:
+    with open(cache_file, "r") as file:
         return ast.literal_eval(file.read())
-
-
 
 
 def check_if_calling_api_is_needed(country):
     if not is_cache_empty():
         cached_info = get_cached_content()
         try:
-            return not cached_info.get('All').get('country') == country
+            return not cached_info.get("All").get("country") == country
         except AttributeError:
             return True
     else:
@@ -80,7 +78,7 @@ def get_covid_data(country):
                 "Oh no, unfortunately, some external error occurred. Please try again later"
             )
             return 0
-    elif get_cached_content().get('All').get('country') == country:
+    elif get_cached_content().get("All").get("country") == country:
         return get_cached_content()
     else:
         return 1
