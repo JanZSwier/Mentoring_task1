@@ -11,7 +11,7 @@ cache_file = "data.txt"
 def get_parsed_arguments():
     my_parser = argparse.ArgumentParser(
         description="By giving name of country you will get "
-                    "percentage of people recovered and still sick from all population"
+        "percentage of people recovered and still sick from all population"
     )
     my_parser.add_argument(
         "--country",
